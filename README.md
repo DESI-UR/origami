@@ -1,6 +1,7 @@
 # ORIGAMI
 
----
+[![C unit tests](https://github.com/DESI-UR/origami/actions/workflows/c-unit-tests.yml/badge.svg)](https://github.com/DESI-UR/origami/actions/workflows/c-unit-tests.yml)
+
 
 ORIGAMI is a structure-finding routine that identifies halo, filament, 
 wall, and void particles in an *N*-body simulation by counting the 
