@@ -1,4 +1,4 @@
 # User manual
 
-```{include} ../origami/README.md
+```{include} ../README.md
 ```
