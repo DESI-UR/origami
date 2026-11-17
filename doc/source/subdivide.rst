@@ -72,7 +72,7 @@ To compile the CN logic:
       CC = gcc-16
       CFLAGS = -O2 -fopenmp -Wno-error=implicit-function-declaration
 
-   To try flags without editing the ``Makefile``, pass them on the command
+   *To do this without editing the* ``Makefile``, pass them on the command
    line, for example:
 
    .. code-block:: sh
