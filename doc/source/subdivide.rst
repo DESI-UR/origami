@@ -85,27 +85,25 @@ uses it.
      - Length of simulation cube in same units as positions
      - voboz, tag, div, cen
    * - ``np1d``
-     - 1-D number of particles, i.e. cube root of total; must be divisible
-       by the ``ndiv`` given to ``origamidiv``
+     - 1-D number of particles, i.e. cube root of total; **must be divisible
+       by the ``ndiv`` given to ``origamidiv``**
      - tag, div
    * - ``nsplit``
      - Split volume into ``nsplit``\ ³ sub-volumes for OpenMP; for div,
        ``np1d``/``ndiv`` + 2 ``nbuf`` must be divisible by ``nsplit``
      - tag, div
    * - ``numfiles``
-     - For Gadget input, # of particles per snapshot; 0 otherwise. Must be
-       0 for div
+     - For Gadget input, # of particles per snapshot; 0 otherwise. **Must be
+       0 for div.**
      - voboz, tag, div, cen
    * - ``nbuf``
-     - **New.** Width of the buffer zone, in particles, added to each side
-       of a sub-cube
+     - **New.** 1-D number of particles per sub-cube.
      - div
    * - ``buffer``
-     - Buffer size around each sub-cube (defaults to 0.1)
+     - Buffer size around each sub-cube (defaults to 0.1). Not for CN.
      - voboz
    * - ``ndiv``
-     - Number of divisions (defaults to 2, giving 8 sub-cubes). Not used by
-       div, which takes its own ``ndiv`` on the command line
+     - Number of divisions (defaults to 2, giving 8 sub-cubes). Not for CN.
      - voboz
    * - ``volcut``
      - Volume (i.e. 1/density) cut which defines a halo "core"
