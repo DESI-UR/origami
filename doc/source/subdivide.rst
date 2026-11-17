@@ -48,11 +48,47 @@ To compile the CN logic:
 
 .. note::
 
-   On macOS, ``gcc`` is Apple clang, which rejects ``-fopenmp``. Use a
-   Homebrew ``gcc-NN`` (set ``CC`` in the ``Makefile``), or clang with
-   ``-Xpreprocessor -fopenmp -lomp`` from ``libomp``. Recent compilers also
-   reject an implicit function declaration in ``readfiles.c``; add
-   ``-Wno-error=implicit-function-declaration`` to ``CFLAGS``.
+   **Recent compilers.** ``readfiles.c`` calls ``load_snapshot``,
+   ``reordering`` and ``allocate_memory`` before declaring them. Recent
+   clang and gcc 14+ treat this as an error. To build anyway, add
+   ``-Wno-error=implicit-function-declaration`` to ``CFLAGS`` on line 5 of
+   ``code/Makefile``:
+
+   .. code-block:: make
+
+      CFLAGS = -O2 -fopenmp -Wno-error=implicit-function-declaration
+
+.. note::
+
+   **macOS.** On macOS, ``gcc`` is Apple clang, which rejects
+   ``-fopenmp``. Edit ``CC`` and ``CFLAGS`` (lines 4–5 of
+   ``code/Makefile``) using one of these options.
+
+  *Option 1: Homebrew GCC.* Install it with ``brew install gcc``, then
+   point ``CC`` at the versioned binary (check with ``ls $(brew --prefix)/bin/gcc-*``):
+
+   .. code-block:: make
+
+      CC = gcc-14
+      CFLAGS = -O2 -fopenmp -Wno-error=implicit-function-declaration
+  
+  *Option 2: Apple clang with libomp.* Install it with ``brew install libomp``,
+   then keep ``CC = gcc`` and use:
+
+   .. code-block:: make
+
+      CFLAGS = -O2 -Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include -L/opt/homebrew/opt/libomp/lib -lomp -Wno-error=implicit-function-declaration
+ 
+  On Intel Macs, replace ``/opt/homebrew`` with ``/usr/local``.
+
+   To try flags without editing the ``Makefile``, pass them on the command
+   line, for example:
+
+   .. code-block:: sh
+
+      make origami CFLAGS="-O2 -fopenmp -Wno-error=implicit-function-declaration"
+
+   ``origamicomb`` is compiled by hand (step 3 above) and doesn't need any of these flags.
 
 Input File Formats
 ------------------
