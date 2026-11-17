@@ -86,7 +86,7 @@ uses it.
      - voboz, tag, div, cen
    * - ``np1d``
      - 1-D number of particles, i.e. cube root of total; **must be divisible
-       by the ``ndiv`` given to ``origamidiv``**
+       by the** ``ndiv`` **given to** ``origamidiv``
      - tag, div
    * - ``nsplit``
      - Split volume into ``nsplit``\ ³ sub-volumes for OpenMP; for div,
@@ -97,7 +97,7 @@ uses it.
        0 for div.**
      - voboz, tag, div, cen
    * - ``nbuf``
-     - **New.** 1-D number of particles per sub-cube.
+     - **New.** 1-D number of particle buffer added to each side of sub-cube.
      - div
    * - ``buffer``
      - Buffer size around each sub-cube (defaults to 0.1). Not for CN.
