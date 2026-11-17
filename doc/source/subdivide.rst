@@ -62,9 +62,9 @@ To compile the CN logic:
 
    **macOS.** On macOS, ``gcc`` is Apple clang, which rejects
    ``-fopenmp``. Edit ``CC`` and ``CFLAGS`` (lines 4–5 of
-   ``code/Makefile``) using one of these options.
-
-  *Use Homebrew GCC.* Install it with ``brew install gcc``, then
+   ``code/Makefile``) Homebrew GCC.
+    
+  If not installed, install GCC with ``brew install gcc``, then
    point ``CC`` at the GCC version installed (check version with ``ls $(brew --prefix)/bin/gcc-*``). For example, if the version is gcc-16:
 
    .. code-block:: make
@@ -72,7 +72,7 @@ To compile the CN logic:
       CC = gcc-16
       CFLAGS = -O2 -fopenmp -Wno-error=implicit-function-declaration
 
-   *To do this without editing the* ``Makefile``, pass them on the command
+   **To do this without editing the** ``Makefile``, pass them on the command
    line, for example:
 
    .. code-block:: sh
