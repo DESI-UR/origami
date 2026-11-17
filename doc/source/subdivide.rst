@@ -3,7 +3,7 @@ ORIGAMI - Sub-divide
 
 In the University of Rochester's DESI group, Dahlia Veyrat reworked the crossing number calculation done by ``origamitag.c`` into two new files: ``origamidiv.c`` and ``origamicomb.c``. In short, Veyrat's version takes in the desired sub-cube size, calculates the CN of particles in each sub-cube in parallel, and combines them into one output allowing for CN classifications on large N-body simulations (`Veyrat, Douglass & BenZvi 2023 <https://doi.org/10.3847/1538-4357/acf4f5>`_). This was implemented to allow ORIGAMI to be used on AbacusSummit simulations (`Maksimova et al. 2021, MNRAS, 508, 4017 <https://doi.org/10.1093/mnras/stab2484>`_) and similarly large simulations.
 
-Installing
+Installing & Compiling
 ----------
 
 The sub-divide version adds two programs to the standard ORIGAMI routines:
@@ -14,15 +14,18 @@ The sub-divide version adds two programs to the standard ORIGAMI routines:
 - ``origamicomb`` stitches the sub-cube tag files back into a single
   full-box ``tag.dat`` that ``origamihalo`` and ``origamienv`` can read.
 
-Both live in ``code/`` alongside the rest of ORIGAMI. First follow the
-standard installation steps on the :doc:`origami` page (unpacking and
-building Qhull, and pointing ``QLIB`` and ``QINC`` in the ``Makefile`` at it).
-Qhull is only needed for the tessellation; ``origamidiv`` and
-``origamicomb`` do not use it.
+Both live in ``code/`` alongside the rest of ORIGAMI. Qhull is **not**
+required to compute crossing numbers: ``origamitag``, ``origamidiv`` and
+``origamicomb`` do not use it, and ``make origami`` builds without it. Qhull
+is only needed for the VOBOZ tessellation (``make voboz``), whose output
+``origamihalo``, ``origamienv`` and ``origamicen`` require to group halos.
+If you need those, first follow the Qhull steps on the :doc:`origami` page.
 
-Then, from ``code/``:
+To compile the CN logic:
 
-1. Build ``origamidiv`` together with the other ORIGAMI routines::
+1. Download the code or clone the git. 
+
+2. cd to ``code/`` and build ``origamidiv`` together with the other ORIGAMI routines::
 
       make origami
 
@@ -30,7 +33,7 @@ Then, from ``code/``:
    ``origamicen`` and ``origamienv``. Note that plain ``make`` (the ``all``
    target) does **not** build ``origamidiv``.
 
-2. Build ``origamicomb``. It has no ``Makefile`` target and does not use
+3. Build ``origamicomb``. It has no ``Makefile`` target and does not use
    ``readfiles.c``, so compile it directly::
 
       gcc -O2 -o origamicomb origamicomb.c
