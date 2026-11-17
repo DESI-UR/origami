@@ -64,22 +64,13 @@ To compile the CN logic:
    ``-fopenmp``. Edit ``CC`` and ``CFLAGS`` (lines 4–5 of
    ``code/Makefile``) using one of these options.
 
-  *Option 1: Homebrew GCC.* Install it with ``brew install gcc``, then
-   point ``CC`` at the versioned binary (check with ``ls $(brew --prefix)/bin/gcc-*``):
+  *Use Homebrew GCC.* Install it with ``brew install gcc``, then
+   point ``CC`` at the GCC version installed (check version with ``ls $(brew --prefix)/bin/gcc-*``). For example, if the version is gcc-16:
 
    .. code-block:: make
 
-      CC = gcc-14
+      CC = gcc-16
       CFLAGS = -O2 -fopenmp -Wno-error=implicit-function-declaration
-  
-  *Option 2: Apple clang with libomp.* Install it with ``brew install libomp``,
-   then keep ``CC = gcc`` and use:
-
-   .. code-block:: make
-
-      CFLAGS = -O2 -Xpreprocessor -fopenmp -I/opt/homebrew/opt/libomp/include -L/opt/homebrew/opt/libomp/lib -lomp -Wno-error=implicit-function-declaration
- 
-  On Intel Macs, replace ``/opt/homebrew`` with ``/usr/local``.
 
    To try flags without editing the ``Makefile``, pass them on the command
    line, for example:
