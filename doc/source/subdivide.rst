@@ -120,7 +120,7 @@ the command line (see Running).
 
 Particle Positions 
 ^^^^^^^^^^^^^^^^^^
-Just like the original version of ORIGAMI, Veyrat's version only works for simulations that have grid-like initial conditions. ORIGAMI uses the particle ID to determine the particle's initial position. That is, the particle ID's must be ID = $x + yN + zN^2$. The code requires the particles to be sorted by their ID. 
+Just like the original version of ORIGAMI, Veyrat's version only works for simulations that have grid-like initial conditions. ORIGAMI uses the particle ID to determine the particle's initial position. That is, the particle ID's must be ID = :math: `x + yN + zN^2`. The code requires the particles to be sorted by their ID. 
 
 The particle count in the file must be 8 bytes, unlike the original ORIGAMI's 4 byte requirement. This is due to a change in the datatype `origamidiv` expects. 
 
