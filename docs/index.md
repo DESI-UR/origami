@@ -8,7 +8,14 @@ undergone shell-crossing
 
 ```{toctree}
 :maxdepth: 2
-:caption: Contents
+:caption: ORIGAMI
 
-usage
+origami
+```
+
+```{toctree}
+:maxdepth: 2
+:caption: ORIGAMI - Sub-divide
+
+subdivide
 ```
