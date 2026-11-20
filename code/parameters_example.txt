@@ -1,20 +1,20 @@
-# General parameters
-posfile		/home/bfalck/halo/b100/n256z0.pos
-outdir		/home/bfalck/halo/b100/
-taglabel	n256
-boxsize		100000.
-np1d		256
+# General parameters, adjust posfile to correct name, outdir where tag files get appended, if nsplit>1 tagging runs on multiple thread, adjust boxsize and np1d to match the position files contents (size of cube in position simulation and number of particles in one dimension of the simulation). 
+posfile		1CN_n64_div.pos 
+outdir		../runs/test/
+taglabel	veyrat_test1_n64
+boxsize		100.
+np1d		64
 nsplit		1
 numfiles	0
 
-# Used by origamitag_div
-nbuf            64
+# Used by origamidiv
+nbuf            16
 
-# Used by vozinit
+# Used by vozinit 
 buffer		0.1
 ndiv		2
 
-# Used by origamihalo
+# Used by origamihalo 
 volcut		.01
 npmin		20
 halolabel	n256d100
