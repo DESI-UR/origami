@@ -74,12 +74,12 @@ static void test_read_parameters_shipped_example(void) {
   /* The example file shipped with the code must always parse. */
   read_parameters(ORIGAMI_EXAMPLE_PARAMS);
 
-  CHECK_STR_EQ(taglabel, "n256");
-  CHECK_NEAR(boxsize, 100000.0, 1e-2);
-  CHECK_INT_EQ(np1d, 256);
+  CHECK_STR_EQ(taglabel, "veyrat_test1_n64");
+  CHECK_NEAR(boxsize, 100.0, 1e-2);
+  CHECK_INT_EQ(np1d, 64);
   CHECK_INT_EQ(nsplit, 1);
   CHECK_INT_EQ(numfiles, 0);
-  CHECK_INT_EQ(nbuf, 64);
+  CHECK_INT_EQ(nbuf, 16);
   CHECK_NEAR(buffer, 0.1, 1e-6);
   CHECK_INT_EQ(numdiv, 2);
   CHECK_NEAR(volcut, 0.01, 1e-6);
