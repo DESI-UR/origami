@@ -489,10 +489,10 @@ int main(int argc, char *argv[]) {
     tag = fopen(tagoutfile,"w");
     if (tag == NULL) {
         printf("Unable to open %s\n",tagoutfile);
-        exit(0);
+        exit(1);
     }
     //fwrite(&np,1, sizeof(int),tag);
     fwrite(M,npd*npd*npd,sizeof(unsigned char),tag); 
 
-    return(1);
+    return(0);
 }
