@@ -22,6 +22,7 @@ undergone a shell-crossing
    :caption: ORIGAMI - Sub-divide
 
    subdivide
+   notebooks/running_veyrat_origami_RTD
 
 
 Indices and tables

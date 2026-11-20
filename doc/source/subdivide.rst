@@ -155,4 +155,106 @@ Running
 
 **Particle position file downloaded**
 
-If you have a particle position file downloaded already -- with proper ID ordering -- the first step is to adjust the parameter file. Download `parameters_example.txt` from the repo and adjust `posfile` to your files name, `outdir` and `taglabel` to the desired output directory and filename for the CN data, `boxsize` to the width of your position file, and `np1d` to the number of particles in one dimension of your position file. In the directory with `parameters_example.txt`, `origamidiv.c`, and `origamicomb.c` run:
+If you have a particle position file downloaded already -- with proper ID ordering -- the first step is to adjust the parameter file. Download ``parameters_example.txt`` from the repo and adjust ``posfile`` to your file's name, ``outdir`` and ``taglabel`` to the desired output directory and filename for the CN data, ``boxsize`` to the width of your position file, and ``np1d`` to the number of particles in one dimension of your position file. Calculating CNs is then two steps: ``origamidiv`` tags each sub-cube, and ``origamicomb`` stitches the sub-cubes back together. In the directory with ``parameters_example.txt`` and the compiled ``origamidiv`` and ``origamicomb`` executables, run the two steps below.
+
+Step 1: tag each sub-cube with ``origamidiv``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``origamidiv`` takes three arguments, the parameter file, ``ndiv`` and ``divid``:
+
+.. code-block:: sh
+
+   ./origamidiv parameters_example.txt <ndiv> <divid>
+
+- ``ndiv`` is the number of divisions per side, so the box is split into
+  ``ndiv``\ ³ sub-cubes. It is read from the **command line**; the ``ndiv``
+  line in the parameter file is only used by VOBOZ.
+- ``divid`` is the sub-cube to tag, from 0 to ``ndiv``\ ³ − 1.
+
+Run it once for every ``divid``. For example, with ``ndiv`` = 2 there are
+8 sub-cubes:
+
+.. code-block:: sh
+
+   export OMP_NUM_THREADS=8      # only used when nsplit > 1
+   for divid in $(seq 0 7); do
+       ./origamidiv parameters_example.txt 2 $divid
+   done
+
+Each run loads one sub-cube plus ``nbuf`` particles of buffer on every side,
+computes the CNs, and writes only the sub-cube (not the buffer) to
+``<outdir><taglabel>_tag_<divid>.dat``: (``np1d``/``ndiv``)³ bytes with no
+header. The runs do not depend on each other, so on a cluster each
+``divid`` can be submitted as its own job (for example as a job array).
+
+Step 2: combine the sub-cubes with ``origamicomb``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``origamicomb`` does not read the parameter file. Pass it the same
+``taglabel``, ``outdir``, ``np1d`` and ``ndiv`` used above, in this order:
+
+.. code-block:: sh
+
+   ./origamicomb <taglabel> <outdir> <np1d> <ndiv>
+
+   # with the values in parameters_example.txt:
+   ./origamicomb veyrat_test1_n64 ../runs/test/ 64 2
+
+It reads every ``<taglabel>_tag_<divid>.dat`` file, puts the particles back
+in ID order and writes ``<outdir><taglabel>tag.dat``. That file overwrites
+any existing one and has the same format as the output of the standard
+``origamitag``: an int32 particle count, then one byte per particle with
+0 = void, 1 = wall, 2 = filament, 3 = halo. ``origamihalo`` and
+``origamienv`` can read it directly (see :doc:`origami`).
+
+.. note::
+
+   ``origamicomb`` does not check its arguments. If one is missing it
+   crashes instead of printing an error. As in the parameter file,
+   ``outdir`` is joined directly onto the filename, so it needs the
+   trailing ``/``.
+
+Choosing ``ndiv``, ``nbuf`` and ``nsplit``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- ``ndiv``: ``np1d`` must be divisible by ``ndiv``\ ³, not just by
+  ``ndiv``. ``origamidiv`` only checks ``ndiv``, but ``origamicomb`` quits
+  if ``np1d`` is not a multiple of ``ndiv``\ ³. For example, ``np1d`` = 64
+  works with ``ndiv`` = 2 or 4, and ``np1d`` = 2304 works with ``ndiv`` = 4.
+- ``nbuf``: besides the buffer width, ``nbuf`` is also how far along each
+  row of the initial grid ``origamidiv`` searches for a crossing. The
+  standard ``origamitag`` searches ``np1d``/4 particles, so
+  ``nbuf`` = ``np1d``/4 should reproduce its CNs (16 for the 64³ example).
+  A smaller ``nbuf`` uses less memory but can miss crossings with particles
+  further away along the row.
+- ``nsplit``: ``np1d``/``ndiv`` + 2 ``nbuf`` must be divisible by
+  ``nsplit``. If it is not, some rows are skipped and those particles are
+  tagged as void without any warning. With the example values,
+  64/2 + 2 × 16 = 64.
+- Very large runs: ``origamicomb`` writes the particle count in the
+  header as an int32, which overflows above about 1290³ particles. The tag
+  bytes are still correct, but read the file using ``np1d``\ ³ as the count
+  instead of the header.
+
+Checking the output
+^^^^^^^^^^^^^^^^^^^
+
+The fraction of particles in each CN class is a quick sanity check:
+
+.. code-block:: python
+
+   import numpy as np
+
+   with open("../runs/test/veyrat_test1_n64tag.dat", "rb") as f:
+       n = np.fromfile(f, np.int32, 1)[0]
+       tag = np.fromfile(f, np.uint8, n)
+   print(np.bincount(tag, minlength=4) / tag.size)   # [void, wall, filament, halo]
+
+For comparison, Veyrat, Douglass & BenZvi (2023) find 30.8% / 19.4% / 18.2% /
+31.6% for CN = 0 / 1 / 2 / 3 in AbacusSummit Hugebase.
+
+**Example notebook**
+
+:doc:`notebooks/running_veyrat_origami_RTD` walks through the same steps
+from Python: it builds a 64³ test simulation with a single wall, runs
+``origamidiv`` and ``origamicomb``, and reads back the CNs.

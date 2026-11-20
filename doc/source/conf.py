@@ -28,13 +28,17 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.githubpages',
     'sphinx_rtd_theme',
-    'myst_parser',      # lets the .rst pages include the Markdown README
+    'myst_nb',          # renders .ipynb notebooks; also loads myst_parser,
+                        # which lets the .rst pages include the Markdown README
 ]
 
-source_suffix = {
-    '.rst': 'restructuredtext',
-    '.md': 'markdown',
-}
+# myst_nb registers the .md and .ipynb suffixes itself, so source_suffix is
+# not set here (a manual '.md': 'markdown' entry conflicts with it).
+
+# Show the outputs saved in each notebook instead of executing it. Read the
+# Docs has no compiled ORIGAMI binaries or position files, so running the
+# notebooks there would fail.
+nb_execution_mode = 'off'
 
 myst_enable_extensions = [
     'dollarmath',   # $...$ and $$...$$ math
@@ -49,7 +53,7 @@ templates_path = ['.templates']
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['**/.ipynb_checkpoints']
 
 #html_logo = 'filename.png'
 
