@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 
   if (num_part % df3 != 0) {
     printf("Particle grid size must be divisible by number of subdivisions.\n");
-    exit(0);
+    exit(1);
   }
 
   n1d1 = num_part/div_factor;
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 		//Safety check that gives clearer error message than 'Segmentation fault'
 		if (sub[ijk] == NULL) {			
 			printf("Unable to open sub-cube file %s\n",tagsubfile);
-			exit(0);
+			exit(1);
 		}
       }
     }
@@ -96,5 +96,5 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  return(1);
+  return(0);
 }
