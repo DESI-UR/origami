@@ -81,7 +81,7 @@ void read_parameters(char *filename) {
   fd = fopen(filename,"r");
   if (fd == NULL) {
     printf("Unable to open parameter file %s\n\n",filename);
-    exit(0);
+    exit(1);
   }
   printf("Reading parameter file %s\n",filename);
 
@@ -137,7 +137,7 @@ int posread(char *posfile, float ***p, float fact) {
   pos = fopen(posfile, "r");
   if (pos == NULL) {
     printf("Unable to open position file %s\n\n",posfile);
-    exit(0);
+    exit(1);
   }
   /* Fortran77 4-byte headers and footers */
   /* Delete "dum" statements if you don't need them */
@@ -159,7 +159,7 @@ int posread(char *posfile, float ***p, float fact) {
     if ((*p)[i] == NULL) {
       printf("Unable to allocate particle array in readfiles!\n");
       fflush(stdout);
-      exit(0);
+      exit(1);
     }
     (*p)[i][0] = ptemp[i];
   }
@@ -210,7 +210,7 @@ long divread(char *posfile, float ***p, float fact, float boxsize, int np1d, int
   pos = fopen(posfile, "r");
   if (pos == NULL) {
     printf("Unable to open position file %s\n\n",posfile);
-    exit(0);
+    exit(1);
   }
   /* Fortran77 4-byte headers and footers */
   /* Delete "dum" statements if you don't need them */
@@ -256,7 +256,7 @@ long divread(char *posfile, float ***p, float fact, float boxsize, int np1d, int
             if ((*p)[id] == NULL) {
               printf("Unable to allocate particle array in readfiles!\n");
               fflush(stdout);
-              exit(0);
+              exit(1);
             }
             (*p)[id][0] = ptemp[i-((n*np)/nd3)]+(l-1)*boxsize;
           }
@@ -360,7 +360,7 @@ int velread(char *velfile, float ***v, float fact) {
   vel = fopen(velfile, "r");
   if (vel == NULL) {
     printf("Unable to open velocity file %s\n\n",velfile);
-    exit(0);
+    exit(1);
   }
   /* Fortran77 4-byte headers and footers */
   /* Delete "dum" statements if you don't need them */
@@ -383,7 +383,7 @@ int velread(char *velfile, float ***v, float fact) {
     if ((*v)[i] == NULL) {
       printf("Unable to allocate particle array in readfiles!\n");
       fflush(stdout);
-      exit(0);
+      exit(1);
     }
     (*v)[i][0] = vtemp[i];
   }
@@ -437,7 +437,7 @@ int readgadget(char *filename, float ***pos) {
     if ((*pos)[i] == NULL) {
       printf("Unable to allocate particle array in readfiles!\n");
       fflush(stdout);
-      exit(0);
+      exit(1);
     }
   }
   printf("Allocated memory for pos in readgadget\n");
@@ -478,7 +478,7 @@ int load_snapshot(char *fname, int files)
       if(!(fd=fopen(buf,"r")))
 	{
 	  printf("can't open file `%s`\n",buf);
-	  exit(0);
+	  exit(1);
 	}
 
       printf("reading `%s' ...\n",buf); fflush(stdout);
@@ -617,7 +617,7 @@ int allocate_memory(void)
   if(!(P=malloc(NumPart*sizeof(struct particle_data))))
     {
       fprintf(stderr,"failed to allocate memory.\n");
-      exit(0);
+      exit(1);
     }
   
   P--;   /* start with offset 1 */
@@ -626,7 +626,7 @@ int allocate_memory(void)
   if(!(Id=malloc(NumPart*sizeof(long long))))
     {
       fprintf(stderr,"failed to allocate memory.\n");
-      exit(0);
+      exit(1);
     }
   
   Id--;   /* start with offset 1 */
