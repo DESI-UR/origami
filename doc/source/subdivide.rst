@@ -89,6 +89,34 @@ with one new parameter, ``nbuf``. The format is not flexible: every parameter mu
 ``code/parameters_example.txt``, whether or not the routine you are running
 uses it.
 
+.. warning::
+
+   The parser (``read_parameters`` in ``code/readfiles.c``) does not
+   understand comments. It skips a fixed number of lines and reads the
+   values in a fixed order, so the layout of ``parameters_example.txt`` has to
+   be kept exactly:
+
+   - **One comment line at the top, under 80 characters.** Only the first
+     line is skipped. A second comment line, or a first line of 80 characters
+     or more, is read as parameter values. Blank lines between that comment
+     and ``posfile`` are fine.
+   - **Don't add or remove lines between groups.** Before ``nbuf``,
+     ``buffer`` and ``volcut`` the parser skips exactly one blank line and
+     one comment line, each under 80 characters. An extra blank or comment
+     line there shifts every value after it.
+   - **Only the order matters.** The parameter names are not checked, so a
+     line in the wrong place is silently read as the wrong parameter.
+   - **Keep values under 80 characters and without spaces.** ``posfile``,
+     ``outdir``, ``taglabel`` and ``halolabel`` are stored in 80-character
+     buffers, and a space ends the value.
+
+   A broken layout usually doesn't stop the program. It just runs with the
+   wrong values, so check what ``origamidiv`` prints before trusting the
+   output. The ``particles`` line should be
+   (``np1d``/``ndiv`` + 2 ``nbuf``)³, which is 64³ = 262144 for the example
+   file. ``tests/test_readfiles.c``
+   checks that the shipped example still parses.
+
 .. list-table::
    :header-rows: 1
    :widths: 15 60 25
