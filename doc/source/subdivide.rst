@@ -42,12 +42,6 @@ To compile the CN logic:
 
 .. note::
 
-   The CMake build (``CMakeLists.txt`` in the repository root) does not yet
-   build ``origamidiv`` or ``origamicomb``; use the ``Makefile`` for the
-   sub-divide version.
-
-.. note::
-
    **macOS.** On macOS, ``gcc`` is Apple clang, which rejects
    ``-fopenmp``. If not installed, install GCC with ``brew install gcc``. Then, you need to edit ``CC`` and ``CFLAGS`` (lines 4–5 of
    ``code/Makefile``). 
