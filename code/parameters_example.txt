@@ -1,6 +1,8 @@
 # General parameters, adjust posfile to correct name
-#outdir where tag files get appended, if nsplit>1 tagging runs on multiple thread
-#adjust boxsize and np1d to match the position files contents (size of cube in position simulation and number of particles in one dimension of the simulation). 
+# outdir where tag files get appended, 
+# if nsplit>1 tagging runs on multiple thread
+#adjust boxsize and np1d to match the position file contents 
+#(size of cube in position simulation and number of particles in one dimension of the simulation). 
 posfile		1CN_n64_div.pos 
 outdir		../runs/test/
 taglabel	veyrat_test1_n64
