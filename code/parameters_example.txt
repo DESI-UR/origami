@@ -1,7 +1,7 @@
 # General parameters, adjust posfile to correct name
 # outdir where tag files get appended, 
 # if nsplit>1 tagging runs on multiple thread
-#adjust boxsize and np1d to match the position file contents 
+# adjust boxsize and np1d to right posfile contents 
 
 posfile		1CN_n64_div.pos 
 outdir		../runs/test/
