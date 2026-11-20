@@ -154,4 +154,5 @@ Running
 -------
 
 **Particle position file downloaded**
+
 If you have a particle position file downloaded already -- with proper ID ordering -- the first step is to adjust the parameter file. Download `parameters_example.txt` from the repo and adjust `posfile` to your files name, `outdir` and `taglabel` to the desired output directory and filename for the CN data, `boxsize` to the width of your position file, and `np1d` to the number of particles in one dimension of your position file. In the directory with `parameters_example.txt`, `origamidiv.c`, and `origamicomb.c` run:
