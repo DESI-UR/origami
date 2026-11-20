@@ -45,8 +45,6 @@
  *         then z, within the sub-cube. 
  *
  * KNOWN ISSUES (found while annotating; marked [ISSUE] below)
- *   - Output name "<label>_tag_<divid>.dat" does not match what
- *     origamicomb.c reads ("<label>tag_<x><y><z>.dat"); files must be renamed.
  *   - The Gadget branch (numfiles > 0) loads the whole box with the
  *     non-subdivided reader, which does not fit the sub-cube layout used here.
  *   - With nsplit > 1, np2 must be divisible by nsplit or some rows are skipped.
