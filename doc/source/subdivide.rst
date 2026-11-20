@@ -48,18 +48,6 @@ To compile the CN logic:
 
 .. note::
 
-   **Recent compilers.** ``readfiles.c`` calls ``load_snapshot``,
-   ``reordering`` and ``allocate_memory`` before declaring them. Recent
-   clang and gcc 14+ treat this as an error. To build anyway, add
-   ``-Wno-error=implicit-function-declaration`` to ``CFLAGS`` on line 5 of
-   ``code/Makefile``:
-
-   .. code-block:: make
-
-      CFLAGS = -O2 -fopenmp -Wno-error=implicit-function-declaration
-
-.. note::
-
    **macOS.** On macOS, ``gcc`` is Apple clang, which rejects
    ``-fopenmp``. If not installed, install GCC with ``brew install gcc``. Then, you need to edit ``CC`` and ``CFLAGS`` (lines 4–5 of
    ``code/Makefile``). 
